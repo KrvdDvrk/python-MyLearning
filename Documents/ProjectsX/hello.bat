@@ -33,9 +33,9 @@ elif current_language == "it_IT":
 elif current_language == "es_ES":
     msg = "Hola, Mundo!"
 elif current_language == "fr_FR":
-    msg = "Bonjour Monde"
+    msg = "Bonjour Monde!"
 elif current_language == "zh_CN":
-    msg = "你好世界"
+    msg = "你好世界!"
 
 print(msg)
 print(56 + 4)
