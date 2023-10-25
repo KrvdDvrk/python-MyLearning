@@ -2,8 +2,11 @@
 
 import os
 import logging
+from logging import handlers
 
-#SEM O LOG_LEVEL:
+#Para achar os atributos de logging acesse aqui: https://docs.python.org/3/library/logging.html
+
+#SEM O LOG_LEVEL e sem fh(handlers):
 """
 #nossa instancia
 log = logging.Logger("Dvrk", logging.DEBUG)
@@ -23,7 +26,7 @@ ch.setFormatter(fmt)
 log.addHandler(ch)
 """
 
-#COM O LOG_lEVEL:
+#COM O LOG_lEVEL e sem fh(handlers):
 """
 #Transforma uma configuração de logging, para uma que é controlada pelo usuário.
 #Digitando no terminal por exemplo "export LOG_LEVEL=error", o usuário deixa de ver o WARNING e só vê o ERROR e CRITICAL
@@ -58,6 +61,7 @@ logging.error("Error who affects one only execution")
 logging.critical("General Error, Ex: Database not found")
 """
 
+#COM fh(handlers)
 #A Configuração abaixo é apenas para configurar o log
 #É uma configuração repetitiva e por isso é chamada de BOILERPLATE
 #TODO: Usar função
@@ -65,13 +69,17 @@ logging.critical("General Error, Ex: Database not found")
 
 log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
 log = logging.Logger("Dvrk", log_level)
-ch = logging.StreamHandler() # Console/terminal/stderr
-ch.setLevel(log_level)
+fh = handlers.RotatingFileHandler(
+    "meulog.log",
+    maxBytes=10**6,
+    backupCount=10,
+)
+fh.setLevel(log_level)
 fmt = logging.Formatter(
     '%(asctime)s %(name)s %(levelname)s l:%(lineno)d f:%(filename)s: %(message)s'
 )
-ch.setFormatter(fmt)
-log.addHandler(ch)
+fh.setFormatter(fmt)
+log.addHandler(fh)
 
 # Como fizemos o log lá em cima na "nossa instancia", não será mais necessário usar "logging.debug", poderemos usar só "log.debug"
 
